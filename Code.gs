@@ -76,3 +76,8 @@ function ensureSheet_(name, headers) {
     }
   }
 }
+
+function requestMailPermission() {
+  MailApp.getRemainingDailyQuota();
+  return true;
+}
