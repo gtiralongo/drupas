@@ -887,7 +887,7 @@
       <div class="payment-icon">🏦</div>
       <p class="payment-title">Realizá el pago por transferencia</p>
       <p class="payment-detail">Banco Nación<br>CBU: 1234567890123456789012<br>Titular: Finca las Drupas</p>
-      <p class="payment-note">Una vez realizado, envianos el comprobante por WhatsApp para confirmar tu pedido.</p>
+      <p class="payment-note">Una vez realizado, envianos el comprobante por <a id="paymentWhatsappLink" href="#" target="_blank" style="color:var(--cobre);font-weight:600;text-decoration:none">WhatsApp</a> para confirmar tu pedido.</p>
     </div>
     <p class="confirm-text">Tu número de pedido es:</p>
     <div class="order-number" id="orderNumber">---</div>
@@ -1290,6 +1290,9 @@
           if (config.delivery_info) {
             document.getElementById('deliveryInfo').textContent = config.delivery_info;
             document.getElementById('confirmMsg').textContent = config.delivery_info;
+          }
+          if (config.whatsapp) {
+            document.getElementById('paymentWhatsappLink').href = 'https://wa.me/' + config.whatsapp;
           }
         })
         .getStoreConfig();
