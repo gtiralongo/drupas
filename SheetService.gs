@@ -187,7 +187,70 @@ function createOrder(data) {
     'No'
   ]);
 
+  try {
+    var config = getStoreConfig();
+    var storeName = config.store_name || 'Finca las Drupas';
+    var bankName = config.bank_name || 'Banco Nación';
+    var bankCbu = config.bank_cbu || '1234567890123456789012';
+    var bankHolder = config.bank_holder || 'Finca las Drupas';
+    var deliveryInfo = config.delivery_info || 'Te vamos a contactar por WhatsApp para coordinar la entrega.';
+    var whatsapp = config.whatsapp || '';
+
+    var itemsHtml = '';
+    for (var i = 0; i < productos.length; i++) {
+      var item = productos[i];
+      itemsHtml += '<tr><td style="padding:8px 12px;border-bottom:1px solid #e0d6c8;font-size:14px">' + item.nombre + ' × ' + item.cantidad + '</td><td style="padding:8px 12px;border-bottom:1px solid #e0d6c8;font-size:14px;text-align:right">$' + Number(item.precio * item.cantidad).toLocaleString('es-AR') + '</td></tr>';
+    }
+
+    var whatsappHtml = whatsapp ? '<p style="font-size:14px;color:#666;margin:12px 0 0">Ante cualquier duda, escribinos por <a href="https://wa.me/' + whatsapp + '" style="color:#6B8F5E;font-weight:600;text-decoration:none">WhatsApp</a></p>' : '';
+
+    var htmlBody = '<div style="max-width:560px;margin:0 auto;font-family:Helvetica,Arial,sans-serif;background:#F5EFE2;padding:32px 20px">' +
+      '<div style="background:#2D2926;padding:24px;border-radius:12px 12px 0 0;text-align:center">' +
+      '<h1 style="color:#A8C69B;font-family:Georgia,serif;font-size:22px;margin:0;letter-spacing:-0.3px">' + escHtml(storeName) + '</h1>' +
+      '</div>' +
+      '<div style="background:#fff;padding:24px;border-radius:0 0 12px 12px">' +
+      '<div style="text-align:center;margin:0 0 20px">' +
+      '<div style="width:56px;height:56px;border-radius:50%;background:#4D7C3F;margin:0 auto 12px;display:flex;align-items:center;justify-content:center">' +
+      '<svg width="24" height="24" viewBox="0 0 24 24" style="stroke:#fff;stroke-width:3;fill:none"><polyline points="20 6 9 17 4 12"/></svg>' +
+      '</div>' +
+      '<h2 style="font-size:20px;color:#2D2926;margin:0 0 4px">¡Pedido Confirmado!</h2>' +
+      '<p style="font-size:13px;color:#999;margin:0">Tu número de pedido es:</p>' +
+      '<p style="font-size:28px;font-weight:700;color:#6B8F5E;margin:4px 0 16px;letter-spacing:2px;font-family:Georgia,serif">' + orderId + '</p>' +
+      '</div>' +
+      '<div style="background:#FFF8E7;border:1.5px solid #E8C87A;border-radius:10px;padding:16px;margin:0 0 20px;text-align:center">' +
+      '<p style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:1px;margin:0 0 8px;font-weight:600">Datos de pago</p>' +
+      '<p style="font-size:14px;color:#2D2926;margin:0;font-weight:600">' + escHtml(bankName) + '</p>' +
+      '<p style="font-size:13px;color:#666;margin:4px 0">CBU: ' + escHtml(bankCbu) + '</p>' +
+      '<p style="font-size:13px;color:#666;margin:0">Titular: ' + escHtml(bankHolder) + '</p>' +
+      '</div>' +
+      '<table style="width:100%;border-collapse:collapse;margin:0 0 16px">' +
+      '<thead><tr><th style="padding:8px 12px;font-size:11px;color:#999;text-transform:uppercase;letter-spacing:0.5px;text-align:left;border-bottom:2px solid #e0d6c8">Producto</th><th style="padding:8px 12px;font-size:11px;color:#999;text-transform:uppercase;letter-spacing:0.5px;text-align:right;border-bottom:2px solid #e0d6c8">Subtotal</th></tr></thead>' +
+      '<tbody>' + itemsHtml + '</tbody>' +
+      '<tfoot><tr><td style="padding:10px 12px;font-size:16px;font-weight:700;border-top:2px solid #2D2926">Total</td><td style="padding:10px 12px;font-size:16px;font-weight:700;text-align:right;border-top:2px solid #2D2926;color:#6B8F5E">$' + Number(total).toLocaleString('es-AR') + '</td></tr></tfoot>' +
+      '</table>' +
+      '<div style="background:#F5EFE2;border-radius:8px;padding:14px;text-align:center;font-size:13px;color:#666;line-height:1.5">' + escHtml(deliveryInfo) + '</div>' +
+      whatsappHtml +
+      '</div>' +
+      '<p style="text-align:center;font-size:11px;color:#ccc;margin:16px 0 0">' + escHtml(storeName) + ' — Gracias por tu compra</p>' +
+      '</div>';
+
+    if (data.email) {
+      MailApp.sendEmail({
+        to: data.email,
+        subject: 'Pedido confirmado - ' + storeName + ' - ' + orderId,
+        htmlBody: htmlBody
+      });
+    }
+  } catch(e) {
+    Logger.log('Error al enviar email confirmación: ' + e.message);
+  }
+
   return { orderId: orderId, total: total, fecha: date };
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function getOrders(email) {
