@@ -37,6 +37,9 @@ function ensureSheets() {
     config.appendRow(['secondary_color', '#D4A574']);
     config.appendRow(['whatsapp', '']);
     config.appendRow(['delivery_info', 'Consultá por delivery a tu zona']);
+    config.appendRow(['bank_name', 'Banco Nación']);
+    config.appendRow(['bank_cbu', '1234567890123456789012']);
+    config.appendRow(['bank_holder', 'Finca las Drupas']);
   }
 }
 

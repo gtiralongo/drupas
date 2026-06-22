@@ -338,6 +338,14 @@
           <div><button class="btn btn-primary" id="saveConfigBtn">Guardar Cambios</button></div>
         </div>
       </div>
+      <div class="card">
+        <h3>Datos de transferencia</h3>
+        <div class="config-grid">
+          <div class="form-group"><label>Banco</label><input type="text" id="cfg-bank_name" placeholder="Ej: Banco Nación"></div>
+          <div class="form-group"><label>CBU / Alias</label><input type="text" id="cfg-bank_cbu" placeholder="Ej: 1234567890123456789012"></div>
+          <div class="form-group"><label>Titular</label><input type="text" id="cfg-bank_holder" placeholder="Ej: Finca las Drupas"></div>
+        </div>
+      </div>
       <div class="card" style="margin-bottom:20px">
         <h3>Admins autorizados</h3>
         <div class="admin-emails" id="adminEmailsList"></div>
@@ -785,6 +793,9 @@
           $('cfg-store_tagline').value = config.store_tagline || '';
           $('cfg-whatsapp').value = config.whatsapp || '';
           $('cfg-delivery_info').value = config.delivery_info || '';
+          $('cfg-bank_name').value = config.bank_name || '';
+          $('cfg-bank_cbu').value = config.bank_cbu || '';
+          $('cfg-bank_holder').value = config.bank_holder || '';
           if (callback) callback();
         })
         .withFailureHandler(function(err) {
@@ -799,7 +810,10 @@
         store_name: $('cfg-store_name').value.trim(),
         store_tagline: $('cfg-store_tagline').value.trim(),
         whatsapp: $('cfg-whatsapp').value.trim(),
-        delivery_info: $('cfg-delivery_info').value.trim()
+        delivery_info: $('cfg-delivery_info').value.trim(),
+        bank_name: $('cfg-bank_name').value.trim(),
+        bank_cbu: $('cfg-bank_cbu').value.trim(),
+        bank_holder: $('cfg-bank_holder').value.trim()
       };
       google.script.run
         .withSuccessHandler(function() { showToast('Configuración guardada', 'success'); })
