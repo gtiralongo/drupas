@@ -855,6 +855,7 @@
     <h2>¡Pedido Confirmado!</h2>
     <p class="confirm-text">Tu número de pedido es:</p>
     <div class="order-number" id="orderNumber">---</div>
+    <div class="order-summary-box" id="confirmSummary"></div>
     <p class="confirm-text" id="confirmMsg">Te vamos a contactar por WhatsApp para coordinar la entrega.</p>
     <button class="continue-btn" id="continueBtn">Seguir Comprando</button>
   </div>
@@ -1193,6 +1194,12 @@
 
       function showConfirmation(orderId) {
         $('orderNumber').textContent = orderId;
+        var summaryHtml = '<h3>Resumen del pedido</h3>';
+        cart.forEach(function(item) {
+          summaryHtml += '<div class="order-summary-item"><span>' + esc(item.nombre) + ' × ' + item.cantidad + '</span><span>' + formatPrice(item.precio * item.cantidad) + '</span></div>';
+        });
+        summaryHtml += '<div class="order-summary-total"><span>Total</span><span>' + formatPrice(getCartTotal()) + '</span></div>';
+        $('confirmSummary').innerHTML = summaryHtml;
         $('confirmModal').classList.add('open');
         $('confirmOverlay').classList.add('open');
         spawnConfetti();
