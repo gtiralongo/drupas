@@ -860,11 +860,6 @@
         <div class="error-msg" id="error-telefono">Ingresá tu teléfono</div>
       </div>
       <div class="form-group">
-        <label for="direccion">Dirección de entrega</label>
-        <textarea id="direccion" name="direccion" placeholder="Calle, número, ciudad, código postal" required></textarea>
-        <div class="error-msg" id="error-direccion">Ingresá tu dirección</div>
-      </div>
-      <div class="form-group">
         <label for="notas">Notas (opcional)</label>
         <textarea id="notas" name="notas" placeholder="Horario preferido, punto de referencia, etc."></textarea>
       </div>
@@ -1176,8 +1171,7 @@
         var fields = [
           { id: 'nombre', errorId: 'error-nombre', validate: function(v) { return v.trim().length >= 2; } },
           { id: 'email', errorId: 'error-email', validate: function(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); } },
-          { id: 'telefono', errorId: 'error-telefono', validate: function(v) { return v.trim().length >= 7; } },
-          { id: 'direccion', errorId: 'error-direccion', validate: function(v) { return v.trim().length >= 5; } }
+          { id: 'telefono', errorId: 'error-telefono', validate: function(v) { return v.trim().length >= 7; } }
         ];
 
         fields.forEach(function(f) {
@@ -1203,7 +1197,6 @@
           nombre: $('nombre').value.trim(),
           email: $('email').value.trim(),
           telefono: $('telefono').value.trim(),
-          direccion: $('direccion').value.trim(),
           notas: $('notas').value.trim(),
           productos: cart.map(function(item) {
             return { id: item.id, nombre: item.nombre, cantidad: item.cantidad, precio: item.precio };

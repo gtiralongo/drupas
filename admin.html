@@ -637,7 +637,7 @@
               '<td><strong>' + esc(o.id) + '</strong></td>' +
               '<td>' + esc(o.fecha) + '</td>' +
               '<td>' + esc(o.nombre) + '<br><span style="font-size:11px;color:var(--text-muted)">' + esc(o.email) + '</span></td>' +
-              '<td>' + esc(o.telefono) + '</td>' +
+              '<td>' + (o.telefono ? '<a href="https://wa.me/' + o.telefono.replace(/[^0-9]/g, '') + '" target="_blank" style="color:var(--cobre);text-decoration:none;font-weight:500">' + esc(o.telefono) + '</a>' : '') + '</td>' +
               '<td style="max-width:200px;font-size:11px">' + esc(itemsStr) + '</td>' +
               '<td><strong>$' + Number(o.total || 0).toLocaleString('es-AR') + '</strong></td>' +
               '<td><span class="status-badge status-' + estadoClass + '">' + esc(estado) + '</span></td>' +
@@ -693,8 +693,7 @@
             '<h4>Cliente</h4>' +
             '<div class="order-detail-row"><span class="label">Nombre</span><span class="value">' + esc(o.nombre) + '</span></div>' +
             '<div class="order-detail-row"><span class="label">Email</span><span class="value">' + esc(o.email) + '</span></div>' +
-            '<div class="order-detail-row"><span class="label">Teléfono</span><span class="value">' + esc(o.telefono) + '</span></div>' +
-            '<div class="order-detail-row"><span class="label">Dirección</span><span class="value">' + esc(o.direccion) + '</span></div>' +
+            '<div class="order-detail-row"><span class="label">Teléfono</span><span class="value">' + (o.telefono ? '<a href="https://wa.me/' + o.telefono.replace(/[^0-9]/g, '') + '" target="_blank" style="color:var(--cobre);text-decoration:none;font-weight:500">' + esc(o.telefono) + '</a>' : '') + '</span></div>' +
             (o.notas ? '<div class="order-detail-row"><span class="label">Notas</span><span class="value">' + esc(o.notas) + '</span></div>' : '') +
             '</div>' +
             '<div class="order-detail-section">' +
