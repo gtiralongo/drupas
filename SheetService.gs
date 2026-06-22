@@ -161,7 +161,7 @@ function createOrder(data) {
   var lastRow = sheet.getLastRow();
 
   var date = Utilities.formatDate(new Date(), 'America/Argentina/Buenos_Aires', 'dd/MM/yyyy HH:mm');
-  var orderId = 'PED-' + String(lastRow).padStart(4, '0');
+  var orderId = 'P-' + String(lastRow).padStart(4, '0');
 
   var total = 0;
   var productos = [];
