@@ -884,8 +884,6 @@
       <p class="payment-detail">Banco Nación<br>CBU: 1234567890123456789012<br>Titular: Finca las Drupas</p>
       <p class="payment-note">Una vez realizado, envianos el comprobante por <a id="paymentWhatsappLink" href="#" target="_blank" style="color:var(--cobre);font-weight:600;text-decoration:none">WhatsApp</a> para confirmar tu pedido.</p>
     </div>
-    <p class="confirm-text">Tu número de pedido es:</p>
-    <div class="order-number" id="orderNumber">---</div>
     <div class="order-summary-box" id="confirmSummary"></div>
     <p class="confirm-text" id="confirmMsg">Te vamos a contactar por WhatsApp para coordinar la entrega.</p>
     <button class="continue-btn" id="continueBtn">Seguir Comprando</button>
@@ -1222,8 +1220,11 @@
       });
 
       function showConfirmation(orderId) {
-        $('orderNumber').textContent = orderId;
         var summaryHtml = '<h3>Resumen del pedido</h3>';
+        summaryHtml += '<div style="text-align:center;padding:8px 0 12px;border-bottom:1px solid rgba(0,0,0,0.06);margin-bottom:10px">';
+        summaryHtml += '<span style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">N° de pedido</span>';
+        summaryHtml += '<div style="font-size:24px;font-weight:700;color:var(--cobre);letter-spacing:2px;font-family:var(--font-heading)">' + esc(orderId) + '</div>';
+        summaryHtml += '</div>';
         cart.forEach(function(item) {
           summaryHtml += '<div class="order-summary-item"><span>' + esc(item.nombre) + ' × ' + item.cantidad + '</span><span>' + formatPrice(item.precio * item.cantidad) + '</span></div>';
         });
