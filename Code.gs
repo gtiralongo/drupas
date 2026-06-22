@@ -41,6 +41,18 @@ function ensureSheets() {
     config.appendRow(['bank_cbu', '1234567890123456789012']);
     config.appendRow(['bank_holder', 'Finca las Drupas']);
   }
+
+  ensureConfigKey_(config, 'bank_name', 'Banco Nación');
+  ensureConfigKey_(config, 'bank_cbu', '1234567890123456789012');
+  ensureConfigKey_(config, 'bank_holder', 'Finca las Drupas');
+}
+
+function ensureConfigKey_(config, key, defaultValue) {
+  var data = config.getDataRange().getValues();
+  for (var i = 0; i < data.length; i++) {
+    if (data[i][0] === key) return;
+  }
+  config.appendRow([key, defaultValue]);
 }
 
 function ensureSheet_(name, headers) {
