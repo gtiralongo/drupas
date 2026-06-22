@@ -10,6 +10,12 @@ function doGet(e) {
       .addMetaTag('viewport', 'width=device-width, initial-scale=1');
   }
 
+  if (page === 'auth') {
+    MailApp.getRemainingDailyQuota();
+    return HtmlService.createHtmlOutput('<h2>Permiso de MailApp concedido.</h2><p>Ya podés cerrar esta pestaña y volver al panel admin.</p>')
+      .setTitle('Autorización - Finca las Drupas');
+  }
+
   return HtmlService.createHtmlOutputFromFile('index')
     .setTitle('Pedidos - Finca las Drupas')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
