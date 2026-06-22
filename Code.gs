@@ -11,9 +11,14 @@ function doGet(e) {
   }
 
   if (page === 'auth') {
-    MailApp.getRemainingDailyQuota();
-    return HtmlService.createHtmlOutput('<h2>Permiso de MailApp concedido.</h2><p>Ya podés cerrar esta pestaña y volver al panel admin.</p>')
-      .setTitle('Autorización - Finca las Drupas');
+    try {
+      MailApp.getRemainingDailyQuota();
+      return HtmlService.createHtmlOutput('<h2>Permiso de MailApp concedido.</h2><p>Ya podés cerrar esta pestaña y volver al panel admin.</p>')
+        .setTitle('Autorización - Finca las Drupas');
+    } catch(e) {
+      return HtmlService.createHtmlOutput('<h2>Error de permiso</h2><p>Copiá el archivo <code>appsscript.json</code> al editor GAS, o ejecutá la función <code>requestMailPermission</code> desde el editor.</p><p style="color:#999;font-size:12px">' + e.message + '</p>')
+        .setTitle('Error - Finca las Drupas');
+    }
   }
 
   return HtmlService.createHtmlOutputFromFile('index')
