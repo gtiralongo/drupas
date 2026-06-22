@@ -1293,6 +1293,16 @@
           if (bankEl) {
             bankEl.innerHTML = (config.bank_name || 'Banco Nación') + '<br>CBU: ' + (config.bank_cbu || '1234567890123456789012') + '<br>Titular: ' + (config.bank_holder || 'Finca las Drupas');
           }
+          if (config.orders_enabled === 'No' && config.orders_disabled_message) {
+            var banner = document.createElement('div');
+            banner.id = 'ordersDisabledBanner';
+            banner.style.cssText = 'text-align:center;padding:16px 20px;margin:8px 14px;background:linear-gradient(135deg,#FFF8E7,#FFF3D6);border:2px solid #E8C87A;border-radius:12px;font-size:14px;color:#5D4E37;font-weight:500';
+            banner.textContent = config.orders_disabled_message;
+            document.querySelector('.products').style.display = 'none';
+            document.querySelector('.skeleton').style.display = 'none';
+            document.querySelector('.filters').after(banner);
+            document.getElementById('cartBtn').style.display = 'none';
+          }
         })
         .getStoreConfig();
 

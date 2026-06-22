@@ -347,6 +347,19 @@
           <div class="form-group"><label>Titular</label><input type="text" id="cfg-bank_holder" placeholder="Ej: Finca las Drupas"></div>
         </div>
       </div>
+      <div class="card">
+        <h3>Pedidos</h3>
+        <div class="config-grid">
+          <div class="form-group" style="display:flex;align-items:center;gap:10px;flex-direction:row">
+            <label style="margin:0">Pedidos abiertos</label>
+            <select id="cfg-orders_enabled" style="padding:8px 12px;border:1.5px solid rgba(0,0,0,0.06);border-radius:8px;font-family:var(--font-body);font-size:13px;background:var(--crema);outline:none">
+              <option value="Si">Sí</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Mensaje si están cerrados</label><textarea id="cfg-orders_disabled_message" rows="2" placeholder="Estamos actualizando el sistema. Volvé pronto."></textarea></div>
+        </div>
+      </div>
       <div class="card" style="margin-bottom:20px">
         <h3>Admins autorizados</h3>
         <div class="admin-emails" id="adminEmailsList"></div>
@@ -797,6 +810,8 @@
           $('cfg-bank_name').value = config.bank_name || '';
           $('cfg-bank_cbu').value = config.bank_cbu || '';
           $('cfg-bank_holder').value = config.bank_holder || '';
+          $('cfg-orders_enabled').value = config.orders_enabled || 'Si';
+          $('cfg-orders_disabled_message').value = config.orders_disabled_message || '';
           if (callback) callback();
         })
         .withFailureHandler(function(err) {
@@ -814,7 +829,9 @@
         delivery_info: $('cfg-delivery_info').value.trim(),
         bank_name: $('cfg-bank_name').value.trim(),
         bank_cbu: $('cfg-bank_cbu').value.trim(),
-        bank_holder: $('cfg-bank_holder').value.trim()
+        bank_holder: $('cfg-bank_holder').value.trim(),
+        orders_enabled: $('cfg-orders_enabled').value,
+        orders_disabled_message: $('cfg-orders_disabled_message').value.trim()
       };
       google.script.run
         .withSuccessHandler(function() { showToast('Configuración guardada', 'success'); })

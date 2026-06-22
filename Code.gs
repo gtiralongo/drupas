@@ -51,11 +51,15 @@ function ensureSheets() {
     config.appendRow(['bank_name', 'Banco Nación']);
     config.appendRow(['bank_cbu', '1234567890123456789012']);
     config.appendRow(['bank_holder', 'Finca las Drupas']);
+    config.appendRow(['orders_enabled', 'Si']);
+    config.appendRow(['orders_disabled_message', 'Estamos actualizando el sistema. Volvé pronto.']);
   }
 
   ensureConfigKey_(config, 'bank_name', 'Banco Nación');
   ensureConfigKey_(config, 'bank_cbu', '1234567890123456789012');
   ensureConfigKey_(config, 'bank_holder', 'Finca las Drupas');
+  ensureConfigKey_(config, 'orders_enabled', 'Si');
+  ensureConfigKey_(config, 'orders_disabled_message', 'Estamos actualizando el sistema. Volvé pronto.');
 }
 
 function ensureConfigKey_(config, key, defaultValue) {
