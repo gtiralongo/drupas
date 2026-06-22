@@ -882,7 +882,7 @@
       <div class="payment-icon">🏦</div>
       <p class="payment-title">Realizá el pago por transferencia</p>
       <p class="payment-detail">Banco Nación<br>CBU: 1234567890123456789012<br>Titular: Finca las Drupas</p>
-      <p class="payment-note">Una vez realizado, envianos el comprobante por <a id="paymentWhatsappLink" href="#" target="_blank" style="color:var(--cobre);font-weight:600;text-decoration:none">WhatsApp</a> para confirmar tu pedido.</p>
+      <p class="payment-note">Una vez realizado, envianos el comprobante por <a id="paymentWhatsappLink" style="color:var(--cobre);font-weight:600;text-decoration:none;display:none" target="_blank">WhatsApp</a><span id="paymentWhatsappFallback" style="color:var(--cobre);font-weight:600">WhatsApp</span> para confirmar tu pedido.</p>
     </div>
     <div class="order-summary-box" id="confirmSummary"></div>
     <p class="confirm-text" id="confirmMsg">Te vamos a contactar por WhatsApp para coordinar la entrega.</p>
@@ -1221,9 +1221,9 @@
 
       function showConfirmation(orderId) {
         var summaryHtml = '<h3>Resumen del pedido</h3>';
-        summaryHtml += '<div style="text-align:center;padding:8px 0 12px;border-bottom:1px solid rgba(0,0,0,0.06);margin-bottom:10px">';
-        summaryHtml += '<span style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">N° de pedido</span>';
-        summaryHtml += '<div style="font-size:24px;font-weight:700;color:var(--cobre);letter-spacing:2px;font-family:var(--font-heading)">' + esc(orderId) + '</div>';
+        summaryHtml += '<div style="text-align:center;padding:6px 0 10px;border-bottom:1px solid rgba(0,0,0,0.06);margin-bottom:10px">';
+        summaryHtml += '<span style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">N° de pedido: </span>';
+        summaryHtml += '<span style="font-size:18px;font-weight:700;color:var(--cobre);letter-spacing:1.5px;font-family:var(--font-heading)">' + esc(orderId) + '</span>';
         summaryHtml += '</div>';
         cart.forEach(function(item) {
           summaryHtml += '<div class="order-summary-item"><span>' + esc(item.nombre) + ' × ' + item.cantidad + '</span><span>' + formatPrice(item.precio * item.cantidad) + '</span></div>';
@@ -1283,10 +1283,11 @@
           }
           if (config.delivery_info) {
             document.getElementById('deliveryInfo').textContent = config.delivery_info;
-            document.getElementById('confirmMsg').textContent = config.delivery_info;
           }
           if (config.whatsapp) {
             document.getElementById('paymentWhatsappLink').href = 'https://wa.me/' + config.whatsapp;
+            document.getElementById('paymentWhatsappLink').style.display = 'inline';
+            document.getElementById('paymentWhatsappFallback').style.display = 'none';
           }
         })
         .getStoreConfig();
