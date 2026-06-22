@@ -607,6 +607,36 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ========== PAYMENT INFO ========== */
+    .payment-info {
+      background: linear-gradient(135deg, #FFF8E7, #FFF3D6);
+      border: 2px solid #E8C87A;
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      margin: 16px 0 20px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(232,200,122,0.2);
+    }
+    .payment-icon { font-size: 28px; margin-bottom: 6px; }
+    .payment-title {
+      font-size: 15px; font-weight: 700;
+      color: var(--carbon);
+      margin-bottom: 8px;
+    }
+    .payment-detail {
+      font-size: 13px;
+      color: var(--madera);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    .payment-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-style: italic;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      padding-top: 8px;
+    }
+
     /* ========== CONFIRMATION ========== */
     .confirmation-modal { text-align: center; padding-top: 40px; }
     .check-icon-wrap {
@@ -853,6 +883,12 @@
       <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
     <h2>¡Pedido Confirmado!</h2>
+    <div class="payment-info">
+      <div class="payment-icon">🏦</div>
+      <p class="payment-title">Realizá el pago por transferencia</p>
+      <p class="payment-detail">Banco Nación<br>CBU: 1234567890123456789012<br>Titular: Finca las Drupas</p>
+      <p class="payment-note">Una vez realizado, envianos el comprobante por WhatsApp para confirmar tu pedido.</p>
+    </div>
     <p class="confirm-text">Tu número de pedido es:</p>
     <div class="order-number" id="orderNumber">---</div>
     <div class="order-summary-box" id="confirmSummary"></div>
