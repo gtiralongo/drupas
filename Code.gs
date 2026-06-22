@@ -5,13 +5,13 @@ function doGet(e) {
 
   if (page === 'admin') {
     return HtmlService.createHtmlOutputFromFile('admin')
-      .setTitle('Panel Admin - Vértice Gin')
+      .setTitle('Panel Admin - Finca las Drupas')
       .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
       .addMetaTag('viewport', 'width=device-width, initial-scale=1');
   }
 
   return HtmlService.createHtmlOutputFromFile('index')
-    .setTitle('Pedidos - Vértice Gin')
+    .setTitle('Pedidos - Finca las Drupas')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
     .addMetaTag('viewport', 'width=device-width, initial-scale=1');
 }
@@ -23,32 +23,41 @@ function include(filename) {
 function ensureSheets() {
   var ss = SpreadsheetApp.openById(SHEET_ID);
 
-  ensureSheet_(ss, 'Productos', ['ID', 'Nombre', 'Descripcion', 'Precio', 'Categoria', 'Stock', 'ImagenURL', 'Activo']);
-  ensureSheet_(ss, 'Pedidos', ['ID', 'Fecha', 'ClienteNombre', 'ClienteEmail', 'ClienteTel', 'Direccion', 'Productos', 'Total', 'Estado', 'Notas']);
-  ensureSheet_(ss, 'Config', ['Clave', 'Valor']);
+  ensureSheet_('Productos', ['ID', 'Nombre', 'Descripcion', 'Precio', 'Categoria', 'Stock', 'ImagenURL', 'Activo', 'Costo']);
+  ensureSheet_('Pedidos', ['ID', 'Fecha', 'ClienteNombre', 'ClienteEmail', 'ClienteTel', 'Direccion', 'Productos', 'Total', 'Estado', 'Notas', 'Archivado']);
+  ensureSheet_('Config', ['Clave', 'Valor']);
 
   var config = ss.getSheetByName('Config');
   if (config.getLastRow() <= 1) {
-    config.appendRow(['store_name', 'Vértice Gin de Pueblo']);
-    config.appendRow(['store_tagline', 'Destilamos pueblo']);
+    config.appendRow(['store_name', 'Finca las Drupas']);
+    config.appendRow(['store_tagline', 'Productos regionales']);
     config.appendRow(['admin_emails', '[]']);
     config.appendRow(['admin_code', 'admin123']);
-    config.appendRow(['primary_color', '#8B6914']);
-    config.appendRow(['secondary_color', '#C9A84C']);
+    config.appendRow(['primary_color', '#6B8F5E']);
+    config.appendRow(['secondary_color', '#D4A574']);
     config.appendRow(['whatsapp', '']);
     config.appendRow(['delivery_info', 'Consultá por delivery a tu zona']);
   }
 }
 
-function ensureSheet_(ss, name, headers) {
+function ensureSheet_(name, headers) {
+  var ss = SpreadsheetApp.openById(SHEET_ID);
   var sheet = ss.getSheetByName(name);
   if (!sheet) {
     sheet = ss.insertSheet(name);
     sheet.appendRow(headers);
     if (name === 'Productos') {
-      sheet.appendRow([1, 'Vértice Gin 750ml', 'Gin artesanal destilado en alambique de cobre. 42% ABV. Botánicos cosechados en la plaza de Pasteur.', 18000, 'Gin', -1, '', 'Si']);
-      sheet.appendRow([2, 'Vértice Gin 375ml', 'Media botella. Ideal para regalar o probar nuestro gin.', 10000, 'Gin', -1, '', 'Si']);
-      sheet.appendRow([3, 'Vértice Gin Mini 200ml', 'Formato degustación. Llevate la experiencia Vértice a donde vayas.', 5500, 'Gin', -1, '', 'Si']);
+      sheet.appendRow([1, 'Aceite de Oliva Extra Virgen 500ml', 'Aceite de oliva extra virgen, cosecha temprana. Producido en nuestra finca.', 12000, 'Aceite', -1, '', 'Si', 5000]);
+      sheet.appendRow([2, 'Aceitunas Verdes x500g', 'Aceitunas verdes en salmuera, seleccionadas a mano.', 5000, 'Aceitunas', -1, '', 'Si', 2000]);
+      sheet.appendRow([3, 'Miel Pura de Campo x500g', 'Miel cruda sin procesar, cosecha directa de nuestras colmenas.', 7000, 'Miel', -1, '', 'Si', 3000]);
+      sheet.appendRow([4, 'Maní tostado x250g', 'Maní tostado artesanal, salado justo a punto.', 3500, 'Maní', -1, '', 'Si', 1500]);
+    }
+    return;
+  }
+  var headerRow = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  for (var i = 0; i < headers.length; i++) {
+    if (headerRow.indexOf(headers[i]) === -1) {
+      sheet.getRange(1, sheet.getLastColumn() + 1).setValue(headers[i]);
     }
   }
 }

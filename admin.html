@@ -4,14 +4,14 @@
   <base target="_top">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin - Vértice Gin</title>
+  <title>Admin - Finca las Drupas</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --naranja: #FF6600; --naranja-hover: #E55A00; --naranja-light: #FF8533;
+      --naranja: #6B8F5E; --naranja-hover: #5A7A4E; --naranja-light: #A8C69B;
       --carbon: #2D2926; --carbon-soft: #3D3835;
-      --crema: #EADCCF; --blanco: #fff; --arena: #D4A574;
+      --crema: #F5EFE2; --blanco: #FFFDF9; --arena: #D4A574;
       --madera: #5D4E37; --verde-bosque: #4D7C3F;
       --cobre: var(--naranja); --cobre-hover: var(--naranja-hover); --cobre-brillo: var(--naranja-light);
       --crema-madera: var(--crema); --verde: var(--verde-bosque);
@@ -32,7 +32,7 @@
       background: var(--carbon); padding: 14px 24px;
       display: flex; align-items: center; justify-content: space-between;
       position: sticky; top: 0; z-index: 100;
-      border-bottom: 1px solid rgba(201,168,76,0.08);
+      border-bottom: 1px solid rgba(107,143,94,0.15);
     }
     .admin-header h1 {
       font-family: var(--font-heading); font-size: 20px; color: var(--cobre-brillo);
@@ -74,11 +74,21 @@
       font-family: var(--font-heading); font-size: 22px;
       letter-spacing: -0.3px;
     }
+    .section-header .header-left { display: flex; align-items: center; gap: 10px; }
+    .btn-refresh {
+      background: none; border: 1.5px solid rgba(0,0,0,0.06); border-radius: 8px;
+      width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--text-muted); transition: var(--transition);
+      font-size: 16px; line-height: 1;
+    }
+    .btn-refresh:hover { border-color: var(--cobre); color: var(--cobre); transform: rotate(45deg); }
+    .btn-refresh.spinning { animation: spin 0.6s ease; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .table-wrap {
       overflow-x: auto; background: var(--blanco);
-      border-radius: var(--radius-lg); box-shadow: var(--shadow);
-      border: 1px solid rgba(0,0,0,0.03);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(0,0,0,0.04);
     }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(0,0,0,0.03); }
@@ -88,7 +98,7 @@
       white-space: nowrap; position: sticky; top: 0;
     }
     tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(139,105,20,0.02); }
+    tr:hover td { background: rgba(107,143,94,0.02); }
 
     .btn {
       padding: 8px 18px; border-radius: var(--radius); border: none;
@@ -96,8 +106,8 @@
       cursor: pointer; transition: var(--transition);
       display: inline-flex; align-items: center; gap: 6px;
     }
-    .btn-primary { background: var(--carbon); color: var(--blanco); }
-    .btn-primary:hover { background: var(--cobre); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(139,105,20,0.2); }
+    .btn-primary { background: var(--cobre); color: var(--blanco); }
+    .btn-primary:hover { background: var(--cobre-hover); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(107,143,94,0.25); }
     .btn-sm { padding: 5px 12px; font-size: 11px; border-radius: 8px; }
     .btn-success { background: var(--verde); color: var(--blanco); }
     .btn-success:hover { background: #4D6B3E; }
@@ -108,8 +118,9 @@
 
     .modal-overlay {
       position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,0.4); backdrop-filter: blur(6px);
+      background: rgba(0,0,0,0.35); backdrop-filter: blur(4px);
       display: none; align-items: center; justify-content: center;
+      padding: 16px;
     }
     .modal-overlay.open { display: flex; }
     .modal-box {
@@ -131,7 +142,7 @@
     }
     .modal-box input:focus, .modal-box textarea:focus, .modal-box select:focus {
       border-color: var(--cobre); background: var(--blanco);
-      box-shadow: 0 0 0 3px rgba(139,105,20,0.08);
+      box-shadow: 0 0 0 3px rgba(107,143,94,0.08);
     }
     .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
 
@@ -145,6 +156,8 @@
     .status-Enviado { background: #D4EDDA; color: #155724; }
     .status-Entregado { background: #D4EDDA; color: #155724; }
     .status-Cancelado { background: #F8D7DA; color: #721C24; }
+    .status-select { padding: 5px 8px; border-radius: 6px; border: 1.5px solid rgba(0,0,0,0.06); font-size: 11px; font-family: var(--font-body); background: var(--blanco); cursor: pointer; outline: none; transition: var(--transition); }
+    .status-select:focus { border-color: var(--cobre); }
 
     .empty-state { text-align: center; padding: 60px 20px; }
     .empty-state p { color: var(--text-muted); font-size: 14px; }
@@ -166,8 +179,9 @@
 
     .card {
       background: var(--blanco); border-radius: var(--radius-lg);
-      padding: 24px; box-shadow: var(--shadow);
-      border: 1px solid rgba(0,0,0,0.03);
+      padding: 24px; margin-bottom: 20px;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+      border: 1px solid rgba(107,143,94,0.06);
     }
     .card h3 {
       font-family: var(--font-heading); font-size: 17px; margin-bottom: 16px;
@@ -183,7 +197,7 @@
     }
     .config-grid input:focus, .config-grid textarea:focus {
       border-color: var(--cobre); background: var(--blanco);
-      box-shadow: 0 0 0 3px rgba(139,105,20,0.08);
+      box-shadow: 0 0 0 3px rgba(107,143,94,0.08);
     }
 
     .admin-emails { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
@@ -199,6 +213,36 @@
     }
     .admin-emails .email-tag button:hover { color: #B00020; }
 
+    .order-detail-section { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .order-detail-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .order-detail-section h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; }
+    .order-detail-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; gap: 12px; }
+    .order-detail-row .label { color: var(--text-muted); flex-shrink: 0; }
+    .order-detail-row .value { font-weight: 500; text-align: right; }
+    .order-detail-total { display: flex; justify-content: space-between; padding: 10px 0 0; margin-top: 6px; border-top: 2px solid var(--carbon); font-size: 16px; font-weight: 700; }
+    .order-detail-total span:last-child { color: var(--cobre); }
+
+    .login-box {
+      max-width: 400px; margin: 80px auto; padding: 40px 28px;
+      background: var(--blanco); border-radius: var(--radius-lg);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06); text-align: center;
+    }
+    .login-box h2 { font-family: var(--font-heading); font-size: 24px; color: var(--carbon); margin-bottom: 4px; }
+    .login-box p.sub { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+    .login-box input {
+      width: 100%; padding: 12px 14px;
+      border: 1.5px solid rgba(0,0,0,0.06); border-radius: 8px;
+      font-family: var(--font-body); font-size: 16px;
+      outline: none; transition: var(--transition);
+      background: var(--crema); text-align: center;
+    }
+    .login-box input:focus { border-color: var(--cobre); background: var(--blanco); box-shadow: 0 0 0 3px rgba(107,143,94,0.08); }
+    .login-box input + input { margin-top: 10px; }
+    .login-box .btn { width: 100%; padding: 12px; font-size: 15px; justify-content: center; margin-top: 12px; }
+    .login-box .login-msg { font-size: 13px; margin-top: 12px; display: none; color: #B00020; }
+    .login-box .back-link { display: inline-block; margin-top: 20px; font-size: 13px; color: var(--text-muted); text-decoration: none; transition: var(--transition); }
+    .login-box .back-link:hover { color: var(--cobre); }
+
     @media (max-width: 640px) {
       .tab-content { padding: 14px; }
       th, td { padding: 8px 8px; font-size: 11px; }
@@ -206,6 +250,7 @@
       .admin-header h1 { font-size: 17px; }
       .tab-btn { padding: 12px 14px; font-size: 12px; }
       .section-header { flex-direction: column; align-items: stretch; }
+      .section-header .header-left { justify-content: space-between; }
     }
     @media (max-width: 400px) {
       .tab-content { padding: 10px; }
@@ -218,29 +263,32 @@
   <header class="admin-header">
     <h1>Panel Admin</h1>
     <div class="header-links">
+      <span class="user-info" id="userEmailDisplay" style="font-size:12px;color:rgba(255,255,255,0.45)"></span>
       <a href="?page=store" target="_top">← Ver tienda</a>
     </div>
   </header>
 
-  <div id="authCheck" style="max-width:400px;margin:80px auto;padding:40px 28px;background:var(--blanco);border-radius:var(--radius-lg);box-shadow:var(--shadow);text-align:center">
-    <h2 style="font-family:var(--font-heading);font-size:24px;color:var(--carbon);margin-bottom:4px">Acceso Admin</h2>
-    <p style="font-size:14px;color:var(--text-muted);margin-bottom:24px">Ingresá el código de administrador</p>
-    <input type="password" id="adminCodeInput" placeholder="Código de admin" style="width:100%;padding:12px 14px;border:1.5px solid rgba(0,0,0,0.06);border-radius:8px;font-family:var(--font-body);font-size:16px;outline:none;transition:var(--transition);background:var(--crema);margin-bottom:12px;text-align:center;letter-spacing:4px">
-    <button id="adminLoginBtn" class="btn btn-primary" style="width:100%;padding:12px;font-size:15px;justify-content:center">Ingresar</button>
-    <p id="adminLoginError" style="color:#B00020;font-size:13px;margin-top:12px;display:none">Código incorrecto</p>
-    <a href="?page=store" target="_top" style="display:inline-block;margin-top:20px;font-size:13px;color:var(--text-muted);text-decoration:none">← Volver a la tienda</a>
+  <div class="login-box" id="loginForm">
+    <h2>Acceso Admin</h2>
+    <p class="sub">Ingresá tus credenciales</p>
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Contraseña">
+    <button id="loginBtn" class="btn btn-primary">Ingresar</button>
+    <div class="login-msg" id="loginMsg"></div>
+    <a class="back-link" href="https://script.google.com/macros/s/AKfycbz0m6X1UaJ0jUwTazItK98l2EaDmmNkNH3xRjqcs4a-flG2cnxSci6NjdvbR2tYG3zhGw/exec" target="_top">← Volver a la tienda</a>
   </div>
 
   <div id="adminApp" style="display:none">
     <nav class="tabs" id="tabs">
       <button class="tab-btn active" data-tab="productos">Productos</button>
       <button class="tab-btn" data-tab="pedidos">Pedidos</button>
+      <button class="tab-btn" data-tab="costos">Costos</button>
       <button class="tab-btn" data-tab="config">Configuración</button>
     </nav>
 
     <section class="tab-content active" id="tab-productos">
       <div class="section-header">
-        <h2>Productos</h2>
+        <div class="header-left"><h2>Productos</h2><button class="btn-refresh" onclick="loadProducts()" title="Actualizar">↻</button></div>
         <button class="btn btn-primary" id="addProductBtn">+ Agregar Producto</button>
       </div>
       <div class="table-wrap">
@@ -252,7 +300,9 @@
     </section>
 
     <section class="tab-content" id="tab-pedidos">
-      <h2>Pedidos</h2>
+      <div class="section-header">
+        <div class="header-left"><h2>Pedidos</h2><button class="btn-refresh" onclick="loadOrders()" title="Actualizar">↻</button></div>
+      </div>
       <div class="table-wrap">
         <table>
           <thead><tr><th>ID</th><th>Fecha</th><th>Cliente</th><th>Teléfono</th><th>Productos</th><th>Total</th><th>Estado</th><th>Acciones</th></tr></thead>
@@ -261,11 +311,24 @@
       </div>
     </section>
 
+    <section class="tab-content" id="tab-costos">
+      <div class="section-header">
+        <div class="header-left"><h2>Costos</h2><button class="btn-refresh" onclick="loadCostos()" title="Actualizar">↻</button></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Producto</th><th>Cant. Vendida</th><th>Precio Unit.</th><th>Costo Unit.</th><th>Ingreso Total</th><th>Costo Total</th><th>Margen</th></tr></thead>
+          <tbody id="costTableBody"></tbody>
+        </table>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:24px;flex-wrap:wrap" id="costTotals"></div>
+    </section>
+
     <section class="tab-content" id="tab-config">
       <div class="section-header">
-        <h2>Configuración</h2>
+        <div class="header-left"><h2>Configuración</h2><button class="btn-refresh" onclick="loadConfig()" title="Actualizar">↻</button></div>
       </div>
-      <div class="card" style="margin-bottom:20px">
+      <div class="card">
         <h3>Tienda</h3>
         <div class="config-grid">
           <div class="form-group"><label>Nombre de tienda</label><input type="text" id="cfg-store_name"></div>
@@ -275,13 +338,23 @@
           <div><button class="btn btn-primary" id="saveConfigBtn">Guardar Cambios</button></div>
         </div>
       </div>
-      <div class="card">
+      <div class="card" style="margin-bottom:20px">
         <h3>Admins autorizados</h3>
         <div class="admin-emails" id="adminEmailsList"></div>
         <div style="display:flex;gap:8px;margin-top:12px">
           <input type="email" id="newAdminEmail" placeholder="Email del admin" style="padding:8px 12px;border:1.5px solid rgba(0,0,0,0.06);border-radius:8px;font-family:var(--font-body);flex:1;max-width:300px;outline:none;transition:0.25s ease;background:var(--crema)">
           <button class="btn btn-primary" id="addAdminBtn">Agregar</button>
         </div>
+      </div>
+
+      <div class="card">
+        <h3>Contraseña del panel</h3>
+        <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Si no tiene contraseña, cualquiera con un email admin puede acceder. Establecé una para mayor seguridad.</p>
+        <div style="display:flex;gap:8px;max-width:400px">
+          <input type="password" id="newAdminPassword" placeholder="Nueva contraseña (mín. 4 caracteres)" style="padding:8px 12px;border:1.5px solid rgba(0,0,0,0.06);border-radius:8px;font-family:var(--font-body);flex:1;outline:none;transition:0.25s ease;background:var(--crema)">
+          <button class="btn btn-primary" id="setPasswordBtn">Guardar</button>
+        </div>
+        <div id="passwordMsg" style="font-size:12px;margin-top:8px;display:none"></div>
       </div>
 
     </section>
@@ -293,10 +366,12 @@
       <input type="hidden" id="editProductId">
       <div class="form-group"><label>Nombre</label><input type="text" id="prod-nombre"></div>
       <div class="form-group"><label>Descripción</label><textarea id="prod-descripcion" rows="3"></textarea></div>
-      <div class="form-group"><label>Precio ($)</label><input type="number" id="prod-precio" step="0.01"></div>
-      <div class="form-group"><label>Categoría</label><input type="text" id="prod-categoria" placeholder="Ej: Gin, Merch, Combo"></div>
+      <div class="form-group"><label>Precio de venta ($)</label><input type="number" id="prod-precio" step="0.01"></div>
+      <div class="form-group"><label>Precio de costo ($)</label><input type="number" id="prod-costo" step="0.01"></div>
+      <div class="form-group"><label>Categoría</label><input type="text" id="prod-categoria" placeholder="Ej: Aceite, Aceitunas, Miel"></div>
       <div class="form-group"><label>Stock (-1 = ilimitado)</label><input type="number" id="prod-stock" value="-1"></div>
-      <div class="form-group"><label>URL de imagen (opcional)</label><input type="text" id="prod-imagen"></div>
+      <div class="form-group"><label>URL de imagen (opcional)</label><input type="text" id="prod-imagen" oninput="previewProductImage(this.value)"></div>
+      <div id="prod-imagen-preview" style="margin-bottom:14px;display:none;border-radius:8px;overflow:hidden;max-width:200px;border:1px solid rgba(0,0,0,0.06)"><img style="width:100%;display:block"></div>
       <div class="modal-actions">
         <button class="btn btn-outline" id="cancelProductBtn">Cancelar</button>
         <button class="btn btn-primary" id="saveProductBtn">Guardar</button>
@@ -319,7 +394,7 @@
   <script>
     var $ = function(id) { return document.getElementById(id); };
     var toastTimeout;
-    var adminCode = '';
+    var adminEmail = '';
 
     function showToast(msg, type) {
       var el = $('toast');
@@ -336,29 +411,73 @@
       return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     }
 
-    $('adminLoginBtn').addEventListener('click', function() {
-      var code = $('adminCodeInput').value.trim();
-      if (!code) { $('adminLoginError').style.display = 'block'; return; }
+    function driveDirectUrl(url) {
+      if (!url) return '';
+      var m = url.match(/\/file\/d\/([^\/]+)/);
+      if (m) return 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w400';
+      m = url.match(/[?&]id=([^&]+)/);
+      if (m) return 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w400';
+      return url;
+    }
+
+    function showLoginMsg(msg) {
+      var el = $('loginMsg');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    $('loginBtn').addEventListener('click', function() {
+      var email = $('loginEmail').value.trim();
+      var password = $('loginPassword').value;
+      if (!email) { showLoginMsg('Ingresá tu email'); return; }
+      $('loginBtn').disabled = true;
+      $('loginBtn').textContent = 'Verificando...';
       google.script.run
-        .withSuccessHandler(function(valid) {
-          if (valid) {
-            adminCode = code;
-            $('authCheck').style.display = 'none';
+        .withSuccessHandler(function(access) {
+          $('loginBtn').disabled = false;
+          $('loginBtn').textContent = 'Ingresar';
+          if (access) {
+            adminEmail = email;
+            $('loginForm').style.display = 'none';
             $('adminApp').style.display = 'block';
             initTabs();
-            loadProducts();
-            loadOrders();
-            loadConfig();
-            loadAdminEmails();
+            loadProducts(function() {
+              loadOrders(function() {
+                loadConfig(function() {
+                  loadAdminEmails();
+                });
+              });
+            });
+            $('userEmailDisplay').innerHTML = '<span style="color:var(--cobre-brillo);font-weight:500">' + esc(email) + '</span>';
           } else {
-            $('adminLoginError').style.display = 'block';
+            showLoginMsg('Email o contraseña incorrectos');
           }
         })
-        .verifyAdminCode(code);
+        .withFailureHandler(function() {
+          $('loginBtn').disabled = false;
+          $('loginBtn').textContent = 'Ingresar';
+          showLoginMsg('Error al verificar acceso');
+        })
+        .checkAdminLogin(email, password);
     });
 
-    $('adminCodeInput').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') $('adminLoginBtn').click();
+    $('loginEmail').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') $('loginPassword').focus();
+    });
+    $('loginPassword').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') $('loginBtn').click();
+    });
+
+    $('setPasswordBtn').addEventListener('click', function() {
+      var password = $('newAdminPassword').value;
+      if (!password || password.length < 4) { showToast('Mínimo 4 caracteres', 'error'); return; }
+      google.script.run
+        .withSuccessHandler(function(res) {
+          if (res.success) { $('newAdminPassword').value = ''; showToast(res.message, 'success'); }
+          else { showToast(res.message, 'error'); }
+        })
+        .withFailureHandler(function() { showToast('Error al guardar', 'error'); })
+        .setAdminPassword(password, adminEmail);
     });
 
     function initTabs() {
@@ -369,18 +488,19 @@
           this.classList.add('active');
           var target = $('tab-' + this.dataset.tab);
           if (target) target.classList.add('active');
+          if (this.dataset.tab === 'costos') loadCostos();
         });
       });
     }
 
     // ===================== PRODUCTS =====================
-    function loadProducts() {
+    function loadProducts(callback) {
       google.script.run
         .withSuccessHandler(function(products) {
           var tbody = $('productTableBody');
           if (!products || products.length === 0) {
             tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state">No hay productos. Agregá el primero.</div></td></tr>';
-            return;
+            if (callback) callback(); return;
           }
           var html = '';
           products.forEach(function(p) {
@@ -399,10 +519,12 @@
               '</td></tr>';
           });
           tbody.innerHTML = html;
+          if (callback) callback();
         })
         .withFailureHandler(function(err) {
           $('productTableBody').innerHTML = '<tr><td colspan="7"><div class="empty-state">Error al cargar productos</div></td></tr>';
           showToast('Error al cargar productos', 'error');
+          if (callback) callback();
         })
         .getAllProducts();
     }
@@ -417,9 +539,11 @@
           $('prod-nombre').value = p.nombre || '';
           $('prod-descripcion').value = p.descripcion || '';
           $('prod-precio').value = p.precio || '';
+          $('prod-costo').value = p.costo || '';
           $('prod-categoria').value = p.categoria || '';
           $('prod-stock').value = p.stock !== undefined ? p.stock : -1;
           $('prod-imagen').value = p.imagenURL || '';
+          previewProductImage(p.imagenURL || '');
           $('productModal').classList.add('open');
         })
         .withFailureHandler(function(err) {
@@ -432,7 +556,18 @@
       google.script.run
         .withSuccessHandler(function() { loadProducts(); showToast('Estado actualizado', 'success'); })
         .withFailureHandler(function() { showToast('Error al actualizar', 'error'); })
-        .toggleProductActive(id, adminCode);
+        .toggleProductActive(id, adminEmail);
+    };
+
+    window.previewProductImage = function(url) {
+      var preview = $('prod-imagen-preview');
+      var img = preview.querySelector('img');
+      if (url && url.trim()) {
+        img.src = driveDirectUrl(url.trim());
+        preview.style.display = 'block';
+      } else {
+        preview.style.display = 'none';
+      }
     };
 
     $('addProductBtn').addEventListener('click', function() {
@@ -441,9 +576,11 @@
       $('prod-nombre').value = '';
       $('prod-descripcion').value = '';
       $('prod-precio').value = '';
+      $('prod-costo').value = '';
       $('prod-categoria').value = '';
       $('prod-stock').value = '-1';
       $('prod-imagen').value = '';
+      $('prod-imagen-preview').style.display = 'none';
       $('productModal').classList.add('open');
     });
 
@@ -456,6 +593,7 @@
         nombre: $('prod-nombre').value.trim(),
         descripcion: $('prod-descripcion').value.trim(),
         precio: Number($('prod-precio').value) || 0,
+        costo: Number($('prod-costo').value) || 0,
         categoria: $('prod-categoria').value.trim(),
         stock: Number($('prod-stock').value) || -1,
         imagenURL: $('prod-imagen').value.trim()
@@ -468,23 +606,23 @@
         google.script.run
           .withSuccessHandler(function() { loadProducts(); $('productModal').classList.remove('open'); showToast('Producto actualizado', 'success'); })
           .withFailureHandler(function() { showToast('Error al actualizar', 'error'); })
-          .updateProduct(Number(editId), data, adminCode);
+          .updateProduct(Number(editId), data, adminEmail);
       } else {
         google.script.run
           .withSuccessHandler(function() { loadProducts(); $('productModal').classList.remove('open'); showToast('Producto agregado', 'success'); })
           .withFailureHandler(function() { showToast('Error al agregar', 'error'); })
-          .addProduct(data, adminCode);
+          .addProduct(data, adminEmail);
       }
     });
 
     // ===================== ORDERS =====================
-    function loadOrders() {
+    function loadOrders(callback) {
       google.script.run
         .withSuccessHandler(function(orders) {
           var tbody = $('orderTableBody');
           if (!orders || orders.length === 0) {
             tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state">No hay pedidos todavía.</div></td></tr>';
-            return;
+            if (callback) callback(); return;
           }
           var html = '';
           orders.forEach(function(o) {
@@ -505,7 +643,7 @@
               '<td><span class="status-badge status-' + estadoClass + '">' + esc(estado) + '</span></td>' +
               '<td>' +
               '<button class="btn btn-sm btn-outline" onclick="viewOrder(\'' + String(o.id).replace(/'/g, '') + '\')">Ver</button> ' +
-              '<select onchange="updateOrderStatus(\'' + String(o.id).replace(/'/g, '') + '\', this.value)" style="padding:4px 6px;border-radius:6px;border:1px solid rgba(0,0,0,0.08);font-size:11px;font-family:var(--font-body)">' +
+              '<select class="status-select" onchange="updateOrderStatus(\'' + String(o.id).replace(/'/g, '') + '\', this.value)">' +
               '<option value="">Cambiar</option>' +
               '<option value="Pendiente">Pendiente</option>' +
               '<option value="Confirmado">Confirmado</option>' +
@@ -513,16 +651,19 @@
               '<option value="Enviado">Enviado</option>' +
               '<option value="Entregado">Entregado</option>' +
               '<option value="Cancelado">Cancelado</option>' +
-              '</select>' +
+              '</select> ' +
+              '<button class="btn btn-sm btn-danger" onclick="archiveOrder(\'' + String(o.id).replace(/'/g, '') + '\')">Archivar</button>' +
               '</td></tr>';
           });
           tbody.innerHTML = html;
+          if (callback) callback();
         })
         .withFailureHandler(function(err) {
           $('orderTableBody').innerHTML = '<tr><td colspan="8"><div class="empty-state">Error al cargar pedidos: ' + err.message + '</div></td></tr>';
           showToast('Error al cargar pedidos', 'error');
+          if (callback) callback();
         })
-        .getOrders(adminCode);
+        .getOrders(adminEmail);
     }
 
     window.viewOrder = function(orderId) {
@@ -535,7 +676,7 @@
           var itemsHtml = items.map(function(i) {
             var qty = i.cantidad || 1;
             var price = i.precio || 0;
-            return '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(0,0,0,0.04)">' +
+            return '<div class="order-detail-row" style="border-bottom:1px solid rgba(0,0,0,0.04);padding:7px 0">' +
               '<span>' + esc(i.nombre || 'Producto') + ' × ' + qty + '</span>' +
               '<span style="font-weight:600">$' + Number(price * qty).toLocaleString('es-AR') + '</span></div>';
           }).join('');
@@ -543,30 +684,31 @@
           var estadoClass = estado.replace(/\s/g, '');
 
           $('orderDetailContent').innerHTML =
-            '<div style="margin-bottom:16px">' +
-            '<p><strong>Pedido:</strong> ' + esc(o.id) + '</p>' +
-            '<p><strong>Fecha:</strong> ' + esc(o.fecha) + '</p>' +
-            '<p><strong>Estado:</strong> <span class="status-badge status-' + estadoClass + '">' + esc(estado) + '</span></p>' +
+            '<div class="order-detail-section">' +
+            '<div class="order-detail-row"><span class="label">Pedido</span><span class="value">' + esc(o.id) + '</span></div>' +
+            '<div class="order-detail-row"><span class="label">Fecha</span><span class="value">' + esc(o.fecha) + '</span></div>' +
+            '<div class="order-detail-row"><span class="label">Estado</span><span class="value"><span class="status-badge status-' + estadoClass + '">' + esc(estado) + '</span></span></div>' +
             '</div>' +
-            '<div style="margin-bottom:16px">' +
-            '<p><strong>Cliente:</strong> ' + esc(o.nombre) + '</p>' +
-            '<p><strong>Email:</strong> ' + esc(o.email) + '</p>' +
-            '<p><strong>Teléfono:</strong> ' + esc(o.telefono) + '</p>' +
-            '<p><strong>Dirección:</strong> ' + esc(o.direccion) + '</p>' +
-            (o.notas ? '<p><strong>Notas:</strong> ' + esc(o.notas) + '</p>' : '') +
+            '<div class="order-detail-section">' +
+            '<h4>Cliente</h4>' +
+            '<div class="order-detail-row"><span class="label">Nombre</span><span class="value">' + esc(o.nombre) + '</span></div>' +
+            '<div class="order-detail-row"><span class="label">Email</span><span class="value">' + esc(o.email) + '</span></div>' +
+            '<div class="order-detail-row"><span class="label">Teléfono</span><span class="value">' + esc(o.telefono) + '</span></div>' +
+            '<div class="order-detail-row"><span class="label">Dirección</span><span class="value">' + esc(o.direccion) + '</span></div>' +
+            (o.notas ? '<div class="order-detail-row"><span class="label">Notas</span><span class="value">' + esc(o.notas) + '</span></div>' : '') +
             '</div>' +
-            '<div>' +
-            '<p style="font-weight:600;margin-bottom:6px;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted)">Productos</p>' +
+            '<div class="order-detail-section">' +
+            '<h4>Productos</h4>' +
             itemsHtml +
-            '<div style="display:flex;justify-content:space-between;padding:8px 0 0;margin-top:4px;border-top:2px solid var(--carbon);font-size:15px;font-weight:700">' +
-            '<span>Total</span><span style="color:var(--cobre)">$' + Number(o.total || 0).toLocaleString('es-AR') + '</span></div>' +
+            '<div class="order-detail-total">' +
+            '<span>Total</span><span>$' + Number(o.total || 0).toLocaleString('es-AR') + '</span></div>' +
             '</div>';
           $('orderModal').classList.add('open');
         })
         .withFailureHandler(function(err) {
           showToast('Error al cargar detalle del pedido', 'error');
         })
-        .getOrders(adminCode);
+        .getOrders(adminEmail);
     };
 
     window.updateOrderStatus = function(orderId, status) {
@@ -574,24 +716,81 @@
       google.script.run
         .withSuccessHandler(function() { loadOrders(); showToast('Estado actualizado', 'success'); })
         .withFailureHandler(function() { showToast('Error al actualizar', 'error'); })
-        .updateOrderStatus(orderId, status, adminCode);
+        .updateOrderStatus(orderId, status, adminEmail);
+    };
+
+    window.archiveOrder = function(orderId) {
+      if (!confirm('¿Archivar este pedido? Se ocultará de la lista principal.')) return;
+      google.script.run
+        .withSuccessHandler(function() { loadOrders(); showToast('Pedido archivado', 'success'); })
+        .withFailureHandler(function() { showToast('Error al archivar', 'error'); })
+        .archiveOrder(orderId, adminEmail);
     };
 
     $('closeOrderModal').addEventListener('click', function() {
       $('orderModal').classList.remove('open');
     });
 
+    // ===================== COSTOS =====================
+    var _costosRetries = 0;
+    function loadCostos() {
+      google.script.run
+        .withSuccessHandler(function(summary) {
+          _costosRetries = 0;
+          var tbody = $('costTableBody');
+          if (!summary || summary.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state">No hay datos. Los pedidos aparecerán acá automáticamente.</div></td></tr>';
+            $('costTotals').innerHTML = '';
+            return;
+          }
+          var html = '';
+          var totalIngreso = 0, totalCosto = 0, totalMargen = 0;
+          summary.forEach(function(s) {
+            totalIngreso += s.ingresoTotal;
+            totalCosto += s.costoTotal;
+            totalMargen += s.margen;
+            html += '<tr>' +
+              '<td><strong>' + esc(s.nombre) + '</strong></td>' +
+              '<td>' + s.cantidad + '</td>' +
+              '<td>$' + Number(s.ingresoTotal / s.cantidad).toLocaleString('es-AR') + '</td>' +
+              '<td>$' + Number(s.costoTotal / s.cantidad).toLocaleString('es-AR') + '</td>' +
+              '<td>$' + Number(s.ingresoTotal).toLocaleString('es-AR') + '</td>' +
+              '<td>$' + Number(s.costoTotal).toLocaleString('es-AR') + '</td>' +
+              '<td style="color:' + (s.margen >= 0 ? 'var(--verde)' : '#B00020') + ';font-weight:600">$' + Number(s.margen).toLocaleString('es-AR') + '</td>' +
+              '</tr>';
+          });
+          tbody.innerHTML = html;
+          $('costTotals').innerHTML =
+            '<div class="card" style="flex:1;min-width:180px;text-align:center"><p style="font-size:11px;color:var(--text-muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">Ingreso Total</p><p style="font-size:22px;font-weight:700;color:var(--verde)">$' + Number(totalIngreso).toLocaleString('es-AR') + '</p></div>' +
+            '<div class="card" style="flex:1;min-width:180px;text-align:center"><p style="font-size:11px;color:var(--text-muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">Costo Total</p><p style="font-size:22px;font-weight:700;color:#B00020">$' + Number(totalCosto).toLocaleString('es-AR') + '</p></div>' +
+            '<div class="card" style="flex:1;min-width:180px;text-align:center"><p style="font-size:11px;color:var(--text-muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">Margen Total</p><p style="font-size:22px;font-weight:700;color:' + (totalMargen >= 0 ? 'var(--verde)' : '#B00020') + '">$' + Number(totalMargen).toLocaleString('es-AR') + '</p></div>';
+        })
+        .withFailureHandler(function(err) {
+          if (_costosRetries < 3) {
+            _costosRetries++;
+            setTimeout(loadCostos, 1000 * _costosRetries);
+          } else {
+            _costosRetries = 0;
+            $('costTableBody').innerHTML = '<tr><td colspan="7"><div class="empty-state">Error al cargar costos</div></td></tr>';
+            showToast('Error al cargar costos', 'error');
+          }
+        })
+        .getCostSummary(adminEmail);
+    }
+
     // ===================== CONFIG =====================
-    function loadConfig() {
+    function loadConfig(callback) {
       google.script.run
         .withSuccessHandler(function(config) {
           $('cfg-store_name').value = config.store_name || '';
           $('cfg-store_tagline').value = config.store_tagline || '';
           $('cfg-whatsapp').value = config.whatsapp || '';
           $('cfg-delivery_info').value = config.delivery_info || '';
+          if (callback) callback();
         })
         .withFailureHandler(function(err) {
           showToast('Error al cargar configuración', 'error');
+          if (callback) callback();
         })
         .getStoreConfig();
     }
@@ -606,34 +805,39 @@
       google.script.run
         .withSuccessHandler(function() { showToast('Configuración guardada', 'success'); })
         .withFailureHandler(function() { showToast('Error al guardar', 'error'); })
-        .updateStoreConfig(data, adminCode);
+        .updateStoreConfig(data, adminEmail);
     });
 
     // ===================== ADMIN EMAILS =====================
-    function loadAdminEmails() {
+    function loadAdminEmails(callback) {
       google.script.run
         .withSuccessHandler(function(emails) {
           var list = $('adminEmailsList');
           if (!emails || emails.length === 0) {
             list.innerHTML = '<p style="color:var(--text-muted);font-size:13px">No hay admins configurados.</p>';
-            return;
+            if (callback) callback(); return;
           }
           list.innerHTML = emails.map(function(e) {
             return '<span class="email-tag">' + esc(e) +
               ' <button onclick="removeAdmin(\'' + e.replace(/'/g, "\\'") + '\')">×</button></span>';
           }).join('');
+          if (callback) callback();
         })
         .withFailureHandler(function(err) {
           showToast('Error al cargar admins', 'error');
+          if (callback) callback();
         })
-        .getAdminEmails(adminCode);
+        .getAdminEmails(adminEmail);
     }
 
     window.removeAdmin = function(email) {
       google.script.run
-        .withSuccessHandler(function() { loadAdminEmails(); showToast('Admin eliminado', 'success'); })
+        .withSuccessHandler(function(res) {
+          if (res.success) { showToast(res.message, 'success'); loadAdminEmails(); }
+          else { showToast(res.message, 'error'); }
+        })
         .withFailureHandler(function() { showToast('Error al eliminar', 'error'); })
-        .removeAdminEmail(email, adminCode);
+        .removeAdminEmail(email, adminEmail);
     };
 
     $('addAdminBtn').addEventListener('click', function() {
@@ -643,9 +847,12 @@
         return;
       }
       google.script.run
-        .withSuccessHandler(function() { $('newAdminEmail').value = ''; loadAdminEmails(); showToast('Admin agregado', 'success'); })
+        .withSuccessHandler(function(res) {
+          if (res.success) { $('newAdminEmail').value = ''; loadAdminEmails(); showToast(res.message, 'success'); }
+          else { showToast(res.message, 'error'); }
+        })
         .withFailureHandler(function() { showToast('Error al agregar', 'error'); })
-        .addAdminEmail(email, adminCode);
+        .addAdminEmail(email, adminEmail);
     });
 
   </script>

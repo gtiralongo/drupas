@@ -4,20 +4,20 @@
   <base target="_top">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>Pedidos - Vértice Gin</title>
+  <title>Pedidos - Finca las Drupas</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --naranja: #FF6600;
-      --naranja-hover: #E55A00;
-      --naranja-light: #FF8533;
-      --cobre-light: rgba(255,102,0,0.08);
+      --naranja: #6B8F5E;
+      --naranja-hover: #5A7A4E;
+      --naranja-light: #A8C69B;
+      --cobre-light: rgba(107,143,94,0.10);
       --carbon: #2D2926;
       --carbon-soft: #3D3835;
-      --crema: #EADCCF;
-      --crema-dark: #DDCFC0;
-      --blanco: #fff;
+      --crema: #F5EFE2;
+      --crema-dark: #E8E0D4;
+      --blanco: #FFFDF9;
       --arena: #D4A574;
       --madera: #5D4E37;
       --verde-bosque: #4D7C3F;
@@ -56,9 +56,9 @@
     /* ========== HEADER ========== */
     .header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(245,240,232,0.85);
+      background: rgba(245,240,232,0.80);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(139,105,20,0.08);
+      border-bottom: 1px solid rgba(107,143,94,0.12);
       padding: 10px 16px;
       display: flex; align-items: center; justify-content: space-between;
       transition: var(--transition);
@@ -105,7 +105,7 @@
       display: flex; align-items: center; justify-content: center;
       padding: 0 4px;
       transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 2px 8px rgba(139,105,20,0.3);
+      box-shadow: 0 2px 8px rgba(107,143,94,0.3);
     }
     .cart-badge.bump { transform: scale(1.35); }
 
@@ -117,9 +117,9 @@
     /* ========== HERO ========== */
     .hero {
       margin-top: 62px;
-      padding: 40px 20px 36px;
+      padding: 50px 20px 44px;
       text-align: center;
-      background: linear-gradient(160deg, var(--carbon) 0%, #1F1C1A 50%, #1A1816 100%);
+      background: linear-gradient(165deg, #3D5A2E 0%, #6B5E44 40%, #8B6F47 70%, #C9A06B 100%);
       position: relative;
       overflow: hidden;
     }
@@ -127,54 +127,60 @@
       content: '';
       position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 20% 40%, rgba(201,168,76,0.10) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 80% 60%, rgba(139,105,20,0.08) 0%, transparent 50%),
-        radial-gradient(ellipse 40% 40% at 50% 80%, rgba(212,165,116,0.05) 0%, transparent 40%);
+        radial-gradient(ellipse 90% 70% at 15% 30%, rgba(255,255,255,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 70% 50% at 85% 70%, rgba(201,160,107,0.15) 0%, transparent 50%);
     }
-    .hero::after {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--cobre-brillo), transparent);
-      opacity: 0.4;
+    .hero-deco {
+      position: absolute; inset: 0; z-index: 0;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0.08;
+      pointer-events: none;
+    }
+    .hero-deco svg {
+      width: 280px; height: 280px;
+      color: rgba(255,255,255,0.3);
+    }
+    @media (min-width: 480px) {
+      .hero-deco svg { width: 400px; height: 400px; }
     }
     .hero-content { position: relative; z-index: 1; }
     .hero-badge {
       display: inline-block;
-      padding: 4px 14px;
+      padding: 5px 16px;
       border-radius: 20px;
-      background: rgba(201,168,76,0.12);
-      border: 1px solid rgba(201,168,76,0.15);
-      color: var(--cobre-brillo);
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.85);
       font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
+      backdrop-filter: blur(4px);
     }
     .hero h2 {
       font-family: var(--font-heading);
-      font-size: 28px; font-weight: 700;
+      font-size: 30px; font-weight: 700;
       color: var(--blanco);
-      line-height: 1.15;
+      line-height: 1.12;
     }
-    .hero h2 span { color: var(--cobre-brillo); }
+    .hero h2 span { color: #F5E6C8; }
     .hero p {
-      font-size: 14px; color: var(--arena);
-      margin-top: 10px; max-width: 360px; margin-left: auto; margin-right: auto;
+      font-size: 14px; color: rgba(255,255,255,0.7);
+      margin-top: 10px; max-width: 380px; margin-left: auto; margin-right: auto;
     }
     .hero .tagline {
-      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-      color: rgba(255,255,255,0.2);
-      margin-top: 16px;
+      font-size: 10px; letter-spacing: 3.5px; text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      margin-top: 18px;
       position: relative; display: inline-block;
     }
     .hero .tagline::before, .hero .tagline::after {
-      content: ''; display: inline-block; width: 24px; height: 1px;
-      background: rgba(255,255,255,0.15); vertical-align: middle; margin: 0 10px;
+      content: ''; display: inline-block; width: 28px; height: 1px;
+      background: rgba(255,255,255,0.12); vertical-align: middle; margin: 0 10px;
     }
 
     @media (min-width: 480px) {
-      .hero { margin-top: 68px; padding: 56px 24px 44px; }
-      .hero h2 { font-size: 34px; }
-      .hero p { font-size: 15px; }
+      .hero { margin-top: 68px; padding: 64px 24px 52px; }
+      .hero h2 { font-size: 36px; }
+      .hero p { font-size: 15px; max-width: 420px; }
     }
 
     /* ========== FILTERS ========== */
@@ -186,7 +192,7 @@
     }
     .filter-btn {
       padding: 6px 16px;
-      border: 1px solid rgba(139,105,20,0.15);
+      border: 1px solid rgba(107,143,94,0.15);
       border-radius: 20px;
       background: var(--blanco);
       color: var(--madera);
@@ -196,12 +202,12 @@
       transition: var(--transition);
       box-shadow: var(--shadow-sm);
     }
-    .filter-btn:hover { border-color: var(--cobre); color: var(--cobre); transform: translateY(-1px); box-shadow: var(--shadow); }
+    .filter-btn:hover { border-color: var(--cobre); color: var(--cobre); transform: translateY(-1px); }
     .filter-btn.active {
       background: var(--cobre);
       border-color: var(--cobre);
       color: var(--blanco);
-      box-shadow: 0 2px 12px rgba(139,105,20,0.25);
+      box-shadow: 0 2px 12px rgba(107,143,94,0.25);
     }
 
     @media (min-width: 480px) {
@@ -234,9 +240,9 @@
     .product-card {
       background: var(--blanco);
       border-radius: var(--radius);
-      border: 1px solid rgba(0,0,0,0.04);
+      border: 1px solid rgba(107,143,94,0.08);
       overflow: hidden;
-      box-shadow: var(--shadow);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.04);
       transition: var(--transition);
       opacity: 0;
       transform: translateY(16px);
@@ -257,45 +263,57 @@
     .product-card:nth-child(10) { animation-delay: 0.30s; }
 
     .product-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-lg);
-      border-color: rgba(139,105,20,0.12);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(107,143,94,0.10);
+      border-color: rgba(107,143,94,0.15);
     }
 
     .product-img {
-      width: 100%; aspect-ratio: 3/2;
+      width: 100%; aspect-ratio: 1/1;
       background: linear-gradient(135deg, var(--crema-dark), var(--crema));
       display: flex; align-items: center; justify-content: center;
       font-size: 12px; color: var(--text-light);
       border-bottom: 2px solid var(--cobre);
       position: relative; overflow: hidden;
     }
+    .product-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      position: absolute; inset: 0;
+      transition: transform 0.4s ease;
+    }
+    .product-card:hover .product-img img {
+      transform: scale(1.05);
+    }
     .product-img::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(circle at 30% 40%, rgba(201,168,76,0.06) 0%, transparent 60%);
+      background: radial-gradient(circle at 30% 40%, rgba(107,143,94,0.08) 0%, transparent 60%);
+      z-index: 1; pointer-events: none;
+    }
+    .product-img .product-emoji {
+      font-size: 36px; opacity: 0.3; user-select: none;
     }
     .product-img .badge {
-      position: absolute; top: 10px; left: 10px;
+      position: absolute; top: 10px; left: 10px; z-index: 2;
       background: var(--cobre);
       color: var(--blanco);
       font-size: 9px; font-weight: 700;
       padding: 3px 10px;
       border-radius: 8px;
       text-transform: uppercase; letter-spacing: 0.5px;
-      box-shadow: 0 2px 8px rgba(139,105,20,0.2);
+      box-shadow: 0 2px 8px rgba(107,143,94,0.2);
     }
     .product-img .badge.sin-stock {
       background: #B00020;
     }
     .product-body {
-      padding: 14px 14px 16px;
+      padding: 12px 12px 14px;
       flex: 1;
       display: flex; flex-direction: column;
       min-width: 0;
     }
     .product-body h3 {
       font-family: var(--font-heading);
-      font-size: 16px; font-weight: 600;
+      font-size: 15px; font-weight: 600;
       color: var(--carbon);
       line-height: 1.25;
       overflow: hidden;
@@ -321,12 +339,12 @@
     .product-price {
       font-family: var(--font-heading);
       font-size: 17px; font-weight: 700;
-      color: var(--cobre);
+      color: var(--carbon);
       white-space: nowrap;
     }
     .add-btn {
       padding: 7px 14px;
-      background: var(--carbon);
+      background: var(--cobre);
       color: var(--blanco);
       border: none; border-radius: var(--radius-sm);
       font-family: var(--font-body);
@@ -337,7 +355,7 @@
       flex-shrink: 0;
       display: flex; align-items: center; gap: 4px;
     }
-    .add-btn:hover { background: var(--cobre); transform: scale(1.04); box-shadow: 0 4px 16px rgba(139,105,20,0.25); }
+    .add-btn:hover { background: var(--cobre-hover); transform: scale(1.04); box-shadow: 0 4px 16px rgba(107,143,94,0.25); }
     .add-btn:active { transform: scale(0.95); }
     .add-btn.added {
       background: var(--verde);
@@ -375,7 +393,9 @@
       box-shadow: -8px 0 40px rgba(0,0,0,0.08);
     }
     .cart-drawer.open { transform: translateX(0); }
-    @media (max-width: 420px) { .cart-drawer { max-width: 100%; } }
+    @media (max-width: 420px) {
+      .cart-drawer { max-width: 100%; }
+    }
 
     .cart-header {
       display: flex; align-items: center; justify-content: space-between;
@@ -465,8 +485,8 @@
       cursor: pointer;
       transition: var(--transition);
     }
-    .checkout-btn { background: var(--carbon); color: var(--blanco); }
-    .checkout-btn:hover { background: var(--cobre); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(139,105,20,0.3); }
+    .checkout-btn { background: var(--cobre); color: var(--blanco); }
+    .checkout-btn:hover { background: var(--cobre-hover); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(107,143,94,0.3); }
     .checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
     .continue-shopping-btn {
       background: transparent; color: var(--madera);
@@ -536,7 +556,7 @@
     .form-group input:focus, .form-group textarea:focus {
       border-color: var(--cobre);
       background: var(--blanco);
-      box-shadow: 0 0 0 3px rgba(139,105,20,0.08);
+      box-shadow: 0 0 0 3px rgba(107,143,94,0.08);
     }
     .form-group textarea { resize: vertical; min-height: 70px; }
     .form-group input.error, .form-group textarea.error {
@@ -574,7 +594,7 @@
       cursor: pointer;
       transition: var(--transition);
     }
-    .submit-btn:hover { background: var(--cobre); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(139,105,20,0.3); }
+    .submit-btn:hover { background: var(--cobre); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(107,143,94,0.3); }
     .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
     .submit-btn.loading { position: relative; color: transparent; }
     .submit-btn.loading::after {
@@ -633,7 +653,7 @@
       cursor: pointer;
       transition: var(--transition);
     }
-    .continue-btn:hover { background: var(--cobre); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(139,105,20,0.3); }
+    .continue-btn:hover { background: var(--cobre-hover); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(107,143,94,0.3); }
 
     /* ========== FOOTER ========== */
     .footer {
@@ -713,8 +733,8 @@
   <!-- HEADER -->
   <header class="header" id="header">
     <div class="header-logo">
-      <h1>Vértice Gin</h1>
-      <span id="tagline">Destilamos pueblo</span>
+      <h1>Finca las Drupas</h1>
+      <span id="tagline">Productos regionales</span>
     </div>
     <div class="header-actions">
       <button class="cart-btn" id="cartBtn" aria-label="Abrir carrito">
@@ -726,11 +746,25 @@
 
   <!-- HERO -->
   <section class="hero">
+    <div class="hero-deco">
+      <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round">
+        <path d="M20 80 Q35 60 50 50 Q65 40 80 20" />
+        <ellipse cx="35" cy="62" rx="6" ry="3" transform="rotate(-30 35 62)" />
+        <ellipse cx="45" cy="54" rx="6" ry="3" transform="rotate(-20 45 54)" />
+        <ellipse cx="55" cy="46" rx="6" ry="3" transform="rotate(-10 55 46)" />
+        <ellipse cx="65" cy="36" rx="6" ry="3" transform="rotate(10 65 36)" />
+        <ellipse cx="75" cy="26" rx="6" ry="3" transform="rotate(20 75 26)" />
+        <ellipse cx="28" cy="72" rx="4" ry="2" transform="rotate(-40 28 72)" />
+        <ellipse cx="60" cy="42" rx="5" ry="2.5" transform="rotate(0 60 42)" />
+        <circle cx="50" cy="50" r="2" fill="currentColor" stroke="none" />
+        <circle cx="56" cy="44" r="1.5" fill="currentColor" stroke="none" />
+      </svg>
+    </div>
     <div class="hero-content">
       <div class="hero-badge">Pedí online</div>
-      <h2><span>Vértice</span> Gin de Pueblo</h2>
-      <p id="heroDesc">Elegí tus productos y recibilos cómodamente</p>
-      <div class="tagline">Destilamos pueblo</div>
+      <h2>Finca <span>las Drupas</span></h2>
+      <p id="heroDesc">Aceite de oliva, aceitunas, miel y maní — directo de nuestra finca</p>
+      <div class="tagline">Productos regionales</div>
     </div>
   </section>
 
@@ -830,7 +864,7 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>Vértice Gin de Pueblo — Destilamos pueblo</p>
+    <p>Finca las Drupas — Productos regionales</p>
   </footer>
 
   <script>
@@ -898,6 +932,8 @@
           var cant = enCarrito ? enCarrito.cantidad : 0;
 
           var imgContent = '<div class="product-img">';
+          if (p.imagenURL) { imgContent += '<img src="' + esc(driveDirectUrl(p.imagenURL)) + '" alt="' + esc(p.nombre) + '" loading="lazy">'; }
+          else { imgContent += '<span class="product-emoji">' + categoryEmoji(p.categoria) + '</span>'; }
           if (p.stock === 0) { imgContent += '<span class="badge sin-stock">Sin stock</span>'; }
           else if (p.categoria) { imgContent += '<span class="badge">' + p.categoria + '</span>'; }
           imgContent += '</div>';
@@ -922,6 +958,25 @@
             addToCart(id);
           });
         });
+      }
+
+      function categoryEmoji(cat) {
+        if (!cat) return '🌿';
+        var c = cat.toLowerCase();
+        if (c.indexOf('aceite') !== -1) return '🫒';
+        if (c.indexOf('aceituna') !== -1) return '🫒';
+        if (c.indexOf('miel') !== -1) return '🍯';
+        if (c.indexOf('maní') !== -1 || c.indexOf('mani') !== -1) return '🥜';
+        return '🌿';
+      }
+
+      function driveDirectUrl(url) {
+        if (!url) return '';
+        var m = url.match(/\/file\/d\/([^\/]+)/);
+        if (m) return 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w800';
+        m = url.match(/[?&]id=([^&]+)/);
+        if (m) return 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w800';
+        return url;
       }
 
       function esc(str) {
@@ -1150,7 +1205,7 @@
 
       function spawnConfetti() {
         var container = $('confettiContainer');
-        var colors = ['#FF6600', '#FF8533', '#D4A574', '#4D7C3F', '#EADCCF', '#C4B8A8'];
+        var colors = ['#6B8F5E', '#A8C69B', '#D4A574', '#4D7C3F', '#F5EFE2', '#C4B8A8'];
         for (var i = 0; i < 40; i++) {
           var c = document.createElement('div');
           c.className = 'confetti';
