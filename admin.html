@@ -266,6 +266,7 @@
       <span class="user-info" id="userEmailDisplay" style="font-size:12px;color:rgba(255,255,255,0.45)"></span>
       <a onclick="window.top.location.href=window.top.location.href.split('?')[0]+'?page=store';return false" style="cursor:pointer">← Ver tienda</a>
       <a onclick="window.top.location.href=window.top.location.href.split('?')[0]+'?page=auth';return false" style="cursor:pointer;color:var(--arena);font-size:12px">Autorizar Mail</a>
+      <span style="font-size:11px;color:rgba(255,255,255,0.5)">— si llega a spam, marcalo como "No es spam"</span>
     </div>
   </header>
 
@@ -343,7 +344,7 @@
         <h3>Datos de transferencia</h3>
         <div class="config-grid">
           <div class="form-group"><label>Banco</label><input type="text" id="cfg-bank_name" placeholder="Ej: Banco Nación"></div>
-          <div class="form-group"><label>CBU / Alias</label><input type="text" id="cfg-bank_cbu" placeholder="Ej: 1234567890123456789012"></div>
+          <div class="form-group"><label>Alias</label><input type="text" id="cfg-bank_ALIAS" placeholder="Ej: 1234567890123456789012"></div>
           <div class="form-group"><label>Titular</label><input type="text" id="cfg-bank_holder" placeholder="Ej: Finca las Drupas"></div>
         </div>
       </div>
@@ -808,7 +809,7 @@
           $('cfg-whatsapp').value = config.whatsapp || '';
           $('cfg-delivery_info').value = config.delivery_info || '';
           $('cfg-bank_name').value = config.bank_name || '';
-          $('cfg-bank_cbu').value = config.bank_cbu || '';
+          $('cfg-bank_ALIAS').value = config.bank_ALIAS || '';
           $('cfg-bank_holder').value = config.bank_holder || '';
           $('cfg-orders_enabled').value = config.orders_enabled || 'Si';
           $('cfg-orders_disabled_message').value = config.orders_disabled_message || '';
@@ -828,7 +829,7 @@
         whatsapp: $('cfg-whatsapp').value.trim(),
         delivery_info: $('cfg-delivery_info').value.trim(),
         bank_name: $('cfg-bank_name').value.trim(),
-        bank_cbu: $('cfg-bank_cbu').value.trim(),
+        bank_ALIAS: $('cfg-bank_ALIAS').value.trim(),
         bank_holder: $('cfg-bank_holder').value.trim(),
         orders_enabled: $('cfg-orders_enabled').value,
         orders_disabled_message: $('cfg-orders_disabled_message').value.trim()
