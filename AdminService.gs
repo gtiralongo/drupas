@@ -32,11 +32,7 @@ function checkAdminLogin(email, password) {
   var storedHash = getConfig('admin_password');
   if (!storedHash) return true;
   if (!password) return false;
-  if (hashPassword_(password) === storedHash) {
-    try { requestMailPermission(); } catch(e) {}
-    return true;
-  }
-  return false;
+  return hashPassword_(password) === storedHash;
 }
 
 function setAdminPassword(password, email) {
