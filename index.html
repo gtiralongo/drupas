@@ -764,7 +764,7 @@
   <header class="header" id="header">
     <div class="header-logo">
       <h1>Finca las Drupas</h1>
-      <span id="tagline">Productos regionales</span>
+      <span id="tagline">Rio de los Sauces</span>
     </div>
     <div class="header-actions">
       <button class="cart-btn" id="cartBtn" aria-label="Abrir carrito">
@@ -792,8 +792,8 @@
     </div>
     <div class="hero-content">
       <div class="hero-badge">Pedí online</div>
-      <h2>Finca <span>las Drupas</span></h2>
-      <p id="heroDesc">Aceite de oliva, aceitunas, miel y maní — directo de nuestra finca</p>
+      <h2>Finca <span>Las Drupas</span></h2>
+      <p id="heroDesc">Productos Regionales — Aceite de oliva, aceitunas, miel y maní</p>
       <div class="tagline">Productos regionales</div>
     </div>
   </section>
@@ -881,7 +881,7 @@
     <div class="payment-info">
       <div class="payment-icon">🏦</div>
       <p class="payment-title">Realizá el pago por transferencia</p>
-      <p class="payment-detail" id="bankDetail">Banco Nación<br>CBU: 1234567890123456789012<br>Titular: Finca las Drupas</p>
+      <p class="payment-detail" id="bankDetail">Banco Galicia<br>ALIAS: FINCA.LAS.DRUPAS<br>Titular: Juan Wortman/Nicolas Wortman</p>
       <p class="payment-note">Una vez realizado, envianos el comprobante por <a id="paymentWhatsappLink" style="color:var(--cobre);font-weight:600;text-decoration:none;display:none" target="_blank">WhatsApp</a><span id="paymentWhatsappFallback" style="color:var(--cobre);font-weight:600">WhatsApp</span> para confirmar tu pedido.</p>
     </div>
     <div class="order-summary-box" id="confirmSummary"></div>
@@ -894,7 +894,7 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>Finca las Drupas — Productos regionales</p>
+    <p>Finca las Drupas — <span id="tagline">Rio de los Sauces</span></p>
   </footer>
 
   <script>
@@ -1205,6 +1205,10 @@
           .withSuccessHandler(function(result) {
             btn.disabled = false;
             btn.classList.remove('loading');
+            if (result.error) {
+              showToast(result.error, 'error');
+              return;
+            }
             closeCheckout();
             showConfirmation(result.orderId);
             cart = [];
@@ -1291,17 +1295,17 @@
           }
           var bankEl = document.getElementById('bankDetail');
           if (bankEl) {
-            bankEl.innerHTML = (config.bank_name || 'Banco Nación') + '<br>CBU: ' + (config.bank_cbu || '1234567890123456789012') + '<br>Titular: ' + (config.bank_holder || 'Finca las Drupas');
+            bankEl.innerHTML = (config.bank_name || 'Banco Nación') + '<br>ALIAS: ' + (config.bank_ALIAS || '1234567890123456789012') + '<br>Titular: ' + (config.bank_holder || 'Finca las Drupas');
           }
-          if (config.orders_enabled === 'No' && config.orders_disabled_message) {
-            var banner = document.createElement('div');
-            banner.id = 'ordersDisabledBanner';
-            banner.style.cssText = 'text-align:center;padding:16px 20px;margin:8px 14px;background:linear-gradient(135deg,#FFF8E7,#FFF3D6);border:2px solid #E8C87A;border-radius:12px;font-size:14px;color:#5D4E37;font-weight:500';
-            banner.textContent = config.orders_disabled_message;
+          if (config.orders_enabled === 'No') {
             document.querySelector('.products').style.display = 'none';
             document.querySelector('.skeleton').style.display = 'none';
-            document.querySelector('.filters').after(banner);
             document.getElementById('cartBtn').style.display = 'none';
+            var banner = document.createElement('div');
+            banner.id = 'ordersDisabledBanner';
+            banner.style.cssText = 'text-align:center;padding:60px 20px;margin:20px 14px;background:var(--blanco);border-radius:var(--radius-lg);font-size:16px;color:var(--madera);font-weight:500;box-shadow:var(--shadow)';
+            banner.textContent = config.orders_disabled_message || 'Estamos actualizando el sistema. Volvé pronto.';
+            document.querySelector('.filters').after(banner);
           }
         })
         .getStoreConfig();
