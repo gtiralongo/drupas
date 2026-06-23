@@ -1,4 +1,4 @@
-const SHEET_ID = '158EgsOYAIZG9qJ2WZuFGRNJipv7_06o2IEb1Rdq66zY';
+const SHEET_ID = '1aT0sebbuBgRABOzlR7tDTj-suwuTshukAOuac4l58wg';
 
 function doGet(e) {
   var page = e.parameter.page || 'store';
@@ -32,6 +32,10 @@ function include(filename) {
 }
 
 function ensureSheets() {
+  var cache = CacheService.getScriptCache();
+  var cached = cache.get('sheets_ready');
+  if (cached === '1') return;
+
   var ss = SpreadsheetApp.openById(SHEET_ID);
 
   ensureSheet_('Productos', ['ID', 'Nombre', 'Descripcion', 'Precio', 'Categoria', 'Stock', 'ImagenURL', 'Activo', 'Costo']);
@@ -49,17 +53,19 @@ function ensureSheets() {
     config.appendRow(['whatsapp', '']);
     config.appendRow(['delivery_info', 'Consultá por delivery a tu zona']);
     config.appendRow(['bank_name', 'Banco Nación']);
-    config.appendRow(['bank_cbu', '1234567890123456789012']);
+    config.appendRow(['bank_ALIAS', '1234567890123456789012']);
     config.appendRow(['bank_holder', 'Finca las Drupas']);
     config.appendRow(['orders_enabled', 'Si']);
     config.appendRow(['orders_disabled_message', 'Estamos actualizando el sistema. Volvé pronto.']);
   }
 
   ensureConfigKey_(config, 'bank_name', 'Banco Nación');
-  ensureConfigKey_(config, 'bank_cbu', '1234567890123456789012');
+  ensureConfigKey_(config, 'bank_ALIAS', '1234567890123456789012');
   ensureConfigKey_(config, 'bank_holder', 'Finca las Drupas');
   ensureConfigKey_(config, 'orders_enabled', 'Si');
   ensureConfigKey_(config, 'orders_disabled_message', 'Estamos actualizando el sistema. Volvé pronto.');
+
+  cache.put('sheets_ready', '1', 600);
 }
 
 function ensureConfigKey_(config, key, defaultValue) {
@@ -93,6 +99,8 @@ function ensureSheet_(name, headers) {
 }
 
 function requestMailPermission() {
-  MailApp.getRemainingDailyQuota();
+  var admins = JSON.parse(getConfig('admin_emails') || '[]');
+  var to = admins.length ? admins[0] : Session.getActiveUser().getEmail();
+  GmailApp.sendEmail(to, 'Autorización GmailApp', 'Si recibís esto, GmailApp funciona.');
   return true;
 }
